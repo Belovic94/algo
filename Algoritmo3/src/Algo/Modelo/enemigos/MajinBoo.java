@@ -1,6 +1,8 @@
 package Algo.Modelo.enemigos;
 
-public class MajinBoo {
+import Algo.Modelo.Personaje;
+
+public class MajinBoo extends Personaje{
 	int puntosVida;
 	int kiInicial;
 	int velocidad;

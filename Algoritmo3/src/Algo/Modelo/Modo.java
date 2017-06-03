@@ -2,5 +2,7 @@ package Algo.Modelo;
 
  
 public interface Modo {
-    public String atacar();
+    public int ataque();
+    public int distanciaAtaque();
+    public int velocidad();
 }

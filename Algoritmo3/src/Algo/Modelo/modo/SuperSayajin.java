@@ -13,7 +13,13 @@ public class SuperSayajin implements Modo{
 		 this.velocidad=5;
 	}
 	
-	public String atacar(){
-		return "ataco como con poder Sayayin";
+	public int ataque(){
+		return this.poderDePelea;
 	}
+	public int distanciaAtaque(){
+		return this.distancia;
+	}
+    public int velocidad(){
+    	return this.velocidad;
+    }
 }
