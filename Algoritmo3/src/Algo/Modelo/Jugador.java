@@ -20,11 +20,15 @@ import Algo.Modelo.guerrerosz.Picoro;
     			this.diccionarioPersonajes.put("Picoro",new Picoro());
     			this.diccionarioPersonajes.put("Freezer",new Freezer() );
     		}
+    		
+    		
     		public void elegirPersonaje(String unPersonaje){
     			
     			
     			this.personajeActual= this.diccionarioPersonajes.get(unPersonaje);
     		}
+    		
+    		
     		public void evolucionar(String nombreDeLaEvolucion){
     			this.personajeActual.cambiarModo(nombreDeLaEvolucion);
     	}

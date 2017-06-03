@@ -2,8 +2,14 @@ package Algo.Modelo;
 
 import java.util.HashMap;
 
+import Algo.Modelo.modo.BooMalo;
+import Algo.Modelo.modo.BooOriginal;
+import Algo.Modelo.modo.Definitivo;
+import Algo.Modelo.modo.Fortalecido;
 import Algo.Modelo.modo.KaioKen;
+import Algo.Modelo.modo.SemiPerfecto;
 import Algo.Modelo.modo.SuperSayajin;
+import Algo.Modelo.modo.SuperSayajinFase1;
 
 public abstract class Personaje {
 	
@@ -21,6 +27,16 @@ public abstract class Personaje {
 	  public void CargaModo(){
 		 listaModos.put("KaioKen", new KaioKen());
 		 listaModos.put("SuperSayajin",new SuperSayajin());
+		 listaModos.put("BooMalo",new BooMalo());
+		 listaModos.put("Definitivo",new Definitivo());
+		 listaModos.put("BooOriginal",new BooOriginal());
+		 listaModos.put("Fortalecido",new Fortalecido());
+		 listaModos.put("SegundForma",new Modo());
+		 listaModos.put("SemiPerfecto",new SemiPerfecto());
+		 
+		 listaModos.put("SuperSayajin",new SuperSayajin());
+		 listaModos.put("SuperSayajinFase1",new SuperSayajinFase1());
+		  
 	  }
 	  
 	  

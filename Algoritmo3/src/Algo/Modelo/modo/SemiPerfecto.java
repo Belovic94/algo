@@ -1,5 +1,12 @@
 package Algo.Modelo.modo;
 
-public class SemiPerfecto {
+import Algo.Modelo.Modo;
+
+public class SemiPerfecto extends Modo {
+	public SemiPerfecto(){
+		super.distancia=4;
+		super.poderDePelea=40;
+		super.velocidad=3;
+	}
 
 }
