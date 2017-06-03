@@ -6,9 +6,9 @@ public class KaioKen extends Modo{
 	 
 	
 	public KaioKen(){
-		 super.poderDePelea=60;
+		 super.poderDePelea=40;
 		 super.distancia=4;
-		 super.velocidad=5;
+		 super.velocidad=3;
 	}
 	
 	 

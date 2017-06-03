@@ -7,6 +7,7 @@ import Algo.Modelo.modo.BooOriginal;
 import Algo.Modelo.modo.Definitivo;
 import Algo.Modelo.modo.Fortalecido;
 import Algo.Modelo.modo.KaioKen;
+import Algo.Modelo.modo.SegundaForma;
 import Algo.Modelo.modo.SemiPerfecto;
 import Algo.Modelo.modo.SuperSayajin;
 import Algo.Modelo.modo.SuperSayajinFase1;
@@ -31,7 +32,7 @@ public abstract class Personaje {
 		 listaModos.put("Definitivo",new Definitivo());
 		 listaModos.put("BooOriginal",new BooOriginal());
 		 listaModos.put("Fortalecido",new Fortalecido());
-		 listaModos.put("SegundForma",new Modo());
+		 listaModos.put("SegundForma",new SegundaForma());
 		 listaModos.put("SemiPerfecto",new SemiPerfecto());
 		 
 		 listaModos.put("SuperSayajin",new SuperSayajin());

@@ -1,26 +1,21 @@
 package Algo.Modelo;
 
 import java.util.HashMap;
-import Algo.Modelo.enemigos.Freezer;
-import Algo.Modelo.guerrerosz.Goku;
-import Algo.Modelo.guerrerosz.Picoro;
 
     public class Jugador {
     	  private Personaje personajeActual;
-    	     private HashMap<String,Personaje> diccionarioPersonajes=new HashMap<String,Personaje>();
-    	      
+    	  private HashMap<String,Personaje> diccionarioPersonajes;
+    	  private Equipo unEquipo=new Equipo();    
     		
     		public Jugador(){
     			 
-    			 this.cargarPersonajes();
+    		 
     		}
     		
-    		public void cargarPersonajes(){
-    			this.diccionarioPersonajes.put("Goku",new Goku());
-    			this.diccionarioPersonajes.put("Picoro",new Picoro());
-    			this.diccionarioPersonajes.put("Freezer",new Freezer() );
+    		 
+    		public void elegirEquipo(String unEquipo){
+    			diccionarioPersonajes=this.unEquipo.elijoAlEquipo(unEquipo);
     		}
-    		
     		
     		public void elegirPersonaje(String unPersonaje){
     			
@@ -31,21 +26,22 @@ import Algo.Modelo.guerrerosz.Picoro;
     		
     		public void evolucionar(String nombreDeLaEvolucion){
     			this.personajeActual.cambiarModo(nombreDeLaEvolucion);
-    	}
+    	     }
 	
-    public  int ataque  (){ 
-		
-		return (this.personajeActual.ataque());
-	}
-     public  int distanciaAtaque  (){ 
-		
-		return (this.personajeActual.distanciaAtaque());
-	 }
-     
-     public int velocidad(){
-    	 return (this.personajeActual.velocidad());
-     }
-	
+		    public  int ataque  (){ 
+				
+				return (this.personajeActual.ataque());
+			}
+		    
+			  public  int distanciaAtaque  (){ 
+					
+					return (this.personajeActual.distanciaAtaque());
+				 }
+			     
+			     public int velocidad(){
+			    	 return (this.personajeActual.velocidad());
+			     }
+				
 	
 	
 }
