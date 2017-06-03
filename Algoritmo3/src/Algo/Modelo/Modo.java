@@ -1,7 +1,7 @@
 package Algo.Modelo;
 
  
-public  class Modo {
+public  abstract class Modo {
 	
 	protected int poderDePelea;
 	protected int distancia;
