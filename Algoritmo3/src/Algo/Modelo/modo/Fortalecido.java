@@ -1,5 +1,15 @@
 package Algo.Modelo.modo;
 
-public class Fortalecido {
+import Algo.Modelo.Modo;
 
+public class Fortalecido extends Modo{
+	
+	
+	public Fortalecido(){
+		 super.poderDePelea=60;
+		 super.distancia=4;
+		 super.velocidad=5;
+	}
+	
+	 
 }

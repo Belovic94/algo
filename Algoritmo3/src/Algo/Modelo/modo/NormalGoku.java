@@ -1,6 +1,8 @@
 package Algo.Modelo.modo;
 
-public class NormalGoku extends Normal {
+import Algo.Modelo.Modo;
+
+public class NormalGoku extends Modo {
 	public NormalGoku(){
 		super.distancia=2;
 		super.poderDePelea=20;

@@ -1,6 +1,8 @@
 package Algo.Modelo.modo;
 
-public class NormalGohan extends Normal {
+import Algo.Modelo.Modo;
+
+public class NormalGohan extends Modo{
 	public NormalGohan(){
 		super.distancia=2;
 		super.poderDePelea=15;

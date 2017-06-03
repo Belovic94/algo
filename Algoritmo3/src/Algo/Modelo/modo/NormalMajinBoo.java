@@ -2,10 +2,11 @@ package Algo.Modelo.modo;
 
 import Algo.Modelo.Modo;
 
-public class NormalPicoro extends Modo{
-	public NormalPicoro(){
+public class NormalMajinBoo extends Modo{
+	public   NormalMajinBoo(){
 		super.distancia=2;
-		super.poderDePelea=20;
+		super.poderDePelea=30;
 		super.velocidad=2;
 	}
+
 }

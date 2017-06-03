@@ -1,16 +1,13 @@
 package Algo.Modelo.enemigos;
 
 import Algo.Modelo.Personaje;
+import Algo.Modelo.modo.NormalFreezer;
 
 public class Freezer extends Personaje{
-	int puntosVida;
-	int kiInicial;
-	int velocidad;
 	public Freezer(){
-		
-	}
-public void   cambiarModo(String modo){
-		
+		super.kiInicial=0;
+		super.puntosVida=400;
+		super.modoActual= new NormalFreezer();
 	}
  
 	
