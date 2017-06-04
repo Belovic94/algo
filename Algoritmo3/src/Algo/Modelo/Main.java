@@ -23,8 +23,20 @@ public class Main {
 		  System.out.println("distancia del ataque es "+unJugador.distanciaAtaque());
 		  
 		  
+		  System.out.println("/elige otro persona de su equipo///////////////////////////");
 		  
-		  System.out.println("////////////////////////////");
+		  unJugador.elegirPersonaje("Gohan"); 
+		   System.out.println("distancia del ataque es "+ unJugador.distanciaAtaque());
+			 System.out.println("poder de ataque "+ unJugador.ataque());
+			 System.out.println("velocidad "+ unJugador.velocidad());
+			 
+			 unJugador.evolucionar("SuperSayajinFase1");
+			 System.out.println("distancia del ataque es "+ unJugador.distanciaAtaque());
+			 System.out.println("poder de ataque "+ unJugador.ataque());
+			 System.out.println("velocidad "+ unJugador.velocidad());
+			 
+			 
+		  System.out.println("//////turno del otro jugador//////////////////////");
 		  Jugador otroJugador=new Jugador();
 		   
 		  otroJugador.elegirEquipo("EnemigosDeLaTierra");

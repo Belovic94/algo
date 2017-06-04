@@ -5,6 +5,7 @@ import java.util.HashMap;
 import Algo.Modelo.enemigos.Cell;
 import Algo.Modelo.enemigos.Freezer;
 import Algo.Modelo.enemigos.MajinBoo;
+import Algo.Modelo.guerrerosz.Gokan;
 import Algo.Modelo.guerrerosz.Goku;
 import Algo.Modelo.guerrerosz.Picoro;
 
@@ -30,7 +31,7 @@ public class Equipo {
  public void cargarGuerreros(){
 	this.guerreroz.put("Goku",new Goku());
 	this.guerreroz.put("Picoro",new Picoro());
-	this.guerreroz.put("Freezer",new Freezer() );
+	this.guerreroz.put("Gohan",new Gokan() );
  }
 	
    public void cargarEquipo(){
