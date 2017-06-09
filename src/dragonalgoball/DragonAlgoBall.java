@@ -3,31 +3,20 @@ package dragonalgoball;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import dragonalgoball.enemigos.Cell;
-import dragonalgoball.enemigos.Freezer;
-import dragonalgoball.enemigos.MajinBoo;
-import dragonalgoball.guerrerosz.Goku;
-import dragonalgoball.guerrerosz.Gohan;
-import dragonalgoball.guerrerosz.Picoro;
 import dragonalgoball.tablero.Tablero;
+import dragonalgoball.tablero.Celda;
 
 public class DragonAlgoBall {
 	
 	private HashMap<String, Jugador> jugadores;
 	private Tablero tablero;
+	private Turno turno;
 	
 	public DragonAlgoBall(String nombreJugador1, String nombreJugador2){
-		
-		tablero = new Tablero(8, 8);
 		jugadores = new HashMap<String, Jugador>();
-		this.crearJugador(nombreJugador1);
-		this.crearJugador(nombreJugador2);
-		Equipo guerrerosZ = new Equipo(this.crearListaPersonajes(new Goku(), new Gohan(), new Picoro()));
-		Equipo enemigosDeLaTierra = new Equipo(this.crearListaPersonajes(new Cell(), new Freezer(), new MajinBoo())); 
-		jugadores.get(nombreJugador1).asignarEquipo(guerrerosZ);
-		jugadores.get(nombreJugador2).asignarEquipo(enemigosDeLaTierra);
-		tablero.colocarPersonajes(guerrerosZ.obtenerPersonajes(), enemigosDeLaTierra.obtenerPersonajes());
-		this.empezarJuego(nombreJugador1, nombreJugador2);
+		jugadores.put(nombreJugador1, new Jugador(nombreJugador1));
+		jugadores.put(nombreJugador2, new Jugador(nombreJugador2));
+		turno = new Turno(jugadores.values().iterator());
 	}
 	
 	private List<Personaje> crearListaPersonajes(Personaje personaje1, Personaje personaje2, Personaje personaje3){
@@ -38,21 +27,49 @@ public class DragonAlgoBall {
 		return personajes;
 	}
 	
-	private void crearJugador(String unNombre){
-		jugadores.put(unNombre, new Jugador(unNombre));
+	
+	public void crearTablero(int filas, int columnas){
+		tablero = new Tablero(filas, columnas);
 	}
 	
-	private Jugador elegirJugadorInicial(String nombreJugador1, String nombreJugador2){
-		return jugadores.get(nombreJugador1);
+	public Equipo crearEquipo(Personaje personaje1, Personaje personaje2, Personaje personaje3){
+		return new Equipo(this.crearListaPersonajes(personaje1, personaje2, personaje3));
 	}
 	
-	public void empezarJuego(String nombreJugador1, String nombreJugador2){
-		Turno turno = new Turno(this.elegirJugadorInicial(nombreJugador1, nombreJugador2));
-		while (!this.hayGanador()){
-			//Falta implementar
-		}
+	public void asignarEquipoAJugadorActual(Equipo unEquipo){
+		turno.obtenerJugadorActual().asignarEquipo(unEquipo);
 	}
 	
+	public void colocarPersonaje(String unPersonaje, int fila, int columna){
+		tablero.colocarPersonaje(turno.obtenerJugadorActual().elegirPersonaje(unPersonaje), fila, columna);
+	}
 	
+	public String obtenerPersonajeEnCelda(int fila, int columna){
+		Celda celda = tablero.obtenerCelda(fila, columna);
+		return celda.obtener_personaje().obtenerNombre();
+	}
+	public Celda obtenerPosicion(String unPersonaje){
+		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPosicion();
+	}
 	
+	public Celda obtenerCelda(int fila, int columna){
+		return tablero.obtenerCelda(fila, columna);
+	}
+	
+	public void moverPersonajeA(String unPersonaje, int fila, int columna){
+		turno.obtenerJugadorActual().moverA(tablero, tablero.obtenerCelda(fila, columna), unPersonaje);
+	}
+	
+	public void atacarCon(String unPersonaje, int fila, int columna){
+		turno.obtenerJugadorActual().atacarA(tablero, tablero.obtenerCelda(fila, columna), unPersonaje);
+	}
+	
+	public void cambiarModoPersonaje(String unPersonaje, String unModo){
+		turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).cambiarModo(unModo);
+	}
+	
+	public int obtenerPoderDePeleaPersonaje(String unPersonaje){
+		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPoderdePelea();
+	}
+		
 }

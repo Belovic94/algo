@@ -1,6 +1,7 @@
 package dragonalgoball.tablero;
 
 import dragonalgoball.excepciones.ExcepcionCeldaVacia;
+import dragonalgoball.excepciones.ExcepcionCeldaOcupada;
 import dragonalgoball.Personaje;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,9 @@ public class Celda {
 	}
 
 	public void insertarPersonaje(Personaje unPersonaje){
+		if (!this.esta_vacia()){
+			throw new ExcepcionCeldaOcupada();
+		}
 		personaje = unPersonaje;	
 	}
 	

@@ -2,8 +2,8 @@ package dragonalgoball.modo;
 
 import dragonalgoball.Modo;
 
-public class NormalPicoro extends Modo{
-	public NormalPicoro(){
+public class NormalPiccolo extends Modo{
+	public NormalPiccolo(){
 		
 		super.poderDePelea = 20;
 		super.distanciaDeAtaque = 2;

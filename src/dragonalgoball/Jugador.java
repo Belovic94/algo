@@ -8,33 +8,33 @@ import dragonalgoball.tablero.Tablero;
 public class Jugador {
 	
 	private String nombre;
-	private Personaje personajeActual;
 	private Equipo equipo;    
     		
     public Jugador(String unNombre){
     	nombre = unNombre;		
     }
     		
-    /*public void elegirEquipo(List<Personaje> listaPersonajes){
-    	unEquipo = new Equipo(listaPersonajes);
-    }*/
     		
-    public void elegirPersonaje(String unPersonaje){
-    	personajeActual = equipo.obtenerPersonaje(unPersonaje);
+    public Personaje elegirPersonaje(String unPersonaje){
+    	return  equipo.obtenerPersonaje(unPersonaje);
     }
     		
     		
-    public void evolucionarPersonaje(String nombreDeLaEvolucion){
-    	personajeActual.cambiarModo(nombreDeLaEvolucion);
+    public void evolucionarPersonaje(String nombreDeLaEvolucion, String unPersonaje){
+    	this.elegirPersonaje(unPersonaje).cambiarModo(nombreDeLaEvolucion);
     }
     
-    public void moverA(Tablero tablero, Celda unaPosicion){
-    	personajeActual.moverA(tablero, unaPosicion);
+    public void moverA(Tablero tablero, Celda unaPosicion, String unPersonaje){
+    	this.elegirPersonaje(unPersonaje).moverA(tablero, unaPosicion);
     	
     }
     
-    public void atacarA(Tablero tablero, Celda unaPosicion){
-    	personajeActual.atacarA(tablero, unaPosicion);
+    public void atacarA(Tablero tablero, Celda unaPosicion, String unPersonaje){
+    	this.elegirPersonaje(unPersonaje).atacarA(tablero, unaPosicion);
+    }
+    
+    public void atacarAConAtaqueEspecial(Tablero tablero, Celda unaPosicion, String unPersonaje){
+    	this.elegirPersonaje(unPersonaje).atacarAConAtaqueEspecial(tablero, unaPosicion);
     }
     
     public void asignarEquipo(Equipo unEquipo){
@@ -44,7 +44,5 @@ public class Jugador {
     public String obtenerNombre(){
     	return nombre;
     }
-	
-	
-	
+    
 }

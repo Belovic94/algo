@@ -34,24 +34,14 @@ public class Tablero {
 		return busqueda.obtenerDistancia(posInicial, posFinal);
 	}
 	
-	public void colocarPersonajes(List<Personaje> guerrerosZ, List<Personaje> enemigosDeLaTierra){
-		Celda celda;
-		Personaje personaje;
-		Fila fila = this.obtenerFila(0);
-		for (int i = 0; i < guerrerosZ.size(); i++ ){
-			celda = fila.obtenerCelda(i);
-			personaje = guerrerosZ.get(i);
-			celda.insertarPersonaje(personaje);
-			personaje.establecerPosicion(celda);
-		}
-		
-		fila = this.obtenerFila(tabla.size() - 1);
-		for (int i = 0; i < fila.cantidadCeldas(); i++ ){
-			celda = fila.obtenerCelda(fila.cantidadCeldas() - 1 - i);
-			personaje = enemigosDeLaTierra.get(i);
-			celda.insertarPersonaje(personaje);
-			personaje.establecerPosicion(celda);
-		}
+	public void colocarPersonaje(Personaje unPersonaje, int fila, int columna){
+		Celda celda = this.obtenerCelda(fila, columna);
+		celda.insertarPersonaje(unPersonaje);
+		unPersonaje.establecerPosicion(celda);
+	}
+	
+	public Celda obtenerCelda(int fila, int columna){
+		return this.obtenerFila(fila).obtenerCelda(columna);
 	}
 }
 

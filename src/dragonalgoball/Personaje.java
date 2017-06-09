@@ -31,10 +31,10 @@ public abstract class Personaje {
 	
 	public Personaje(){
 		listaModos = new HashMap<String, Modo>();
-		 this.CargaModo(); 
+		this.CargarModos(); 
 	} 
 	 
-	 public void CargaModo(){
+	 public void CargarModos(){
 		 listaModos.put("KaioKen", new KaioKen());
 		 listaModos.put("SuperSayajin", new SuperSayajin());
 		 listaModos.put("SuperSayajinFase1", new SuperSayajinFase1());
@@ -51,9 +51,11 @@ public abstract class Personaje {
 	}
 	 
 	public void moverA(Tablero tablero, Celda unaPosicion){
+		
 		if (!unaPosicion.esta_vacia()){
     		throw new ExcepcionCeldaOcupada();
     	}
+		
 		if (tablero.obtenerDistancia(posicion, unaPosicion) > this.obtenerVelocidad()){
 			throw new ExcepcionMovimientoInvalido();
 		}
@@ -78,12 +80,13 @@ public abstract class Personaje {
 		}
 		puntosDeVida -= dano;
 	}
+	
 	public  void cambiarModo(String modo){ 
 		
 		this.modoActual = listaModos.get(modo);
 	}
 	
-    public double obtenerPoderdePelea(){ 
+    public int obtenerPoderdePelea(){ 
 		
 		return this.modoActual.obtenerPoderDePelea();
 	}
@@ -123,6 +126,11 @@ public abstract class Personaje {
     public void disminuirKi(int descuento){
     	ki += descuento;
     }
-   
-   
+    
+    public Modo obtenerModoActual(){
+    	return modoActual;
+    }
+    
+    public abstract void atacarAConAtaqueEspecial(Tablero tablero, Celda unaPosicion);
+    	
 }

@@ -17,6 +17,7 @@ public class Bfs {
 	
 	public int obtenerDistancia(Celda posInicial, Celda posFinal){
 		Nodo unNodo = new Nodo(posInicial, 0);
+		visitados.add(unNodo.obtenerCelda());
 		this.encolarAdyacentes(unNodo);
 		while (!cola.isEmpty()){
 			unNodo = cola.poll();
@@ -32,7 +33,7 @@ public class Bfs {
 		Celda celda = unNodo.obtenerCelda();
 		List<Celda> adyacentes = celda.obtenerAdyacentes();
 		for (int i = 0; i < celda.cantidadAdyacentes(); i++){
-			if (celda.esta_vacia()){
+			if (adyacentes.get(i).esta_vacia() && !visitados.contains(adyacentes.get(i))){
 				visitados.add(adyacentes.get(i));
 				cola.offer(new Nodo(adyacentes.get(i), unNodo.obtenerDistancia() + 1));
 			}
