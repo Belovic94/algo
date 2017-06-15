@@ -9,6 +9,7 @@ public class NormalGohan extends Modo{
 		super.poderDePelea = 15;
 		super.distanciaDeAtaque = 2;
 		super.velocidad = 2;
+		super.costo=0;
 	}
 
 }

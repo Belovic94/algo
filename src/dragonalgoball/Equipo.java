@@ -1,35 +1,42 @@
 package dragonalgoball;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
+import java.util.Map;
+import dragonalgoball.excepciones.ExcepcionPersonajeExistente;
+import dragonalgoball.excepciones.ExcepcionPersonajeInexistente;
 
 
 
 public class Equipo{
 
-	private HashMap<String,Personaje> integrantes;
+	private Map<String,Personaje> integrantes;
 	
-	public Equipo(List<Personaje> listaPersonajes){
+	public Equipo(){
 		 integrantes = new HashMap<String,Personaje>();
-		 for (int i = 0; i < listaPersonajes.size(); i++){
-			 integrantes.put(listaPersonajes.get(i).obtenerNombre(), listaPersonajes.get(i));
-			 
-		 }
+	}
+	
+	public void agregarPersonaje(Personaje unPersonaje){
+		if (this.existePersonaje(unPersonaje.obtenerNombre())){
+			throw new ExcepcionPersonajeExistente();
+		}
+		integrantes.put(unPersonaje.obtenerNombre(), unPersonaje);
 	}
 	
 	public Personaje obtenerPersonaje(String unNombre){
+		if (!this.existePersonaje(unNombre)){
+			throw new ExcepcionPersonajeInexistente();
+		}
 		return integrantes.get(unNombre);
 	}
 	
-	public List<Personaje> obtenerPersonajes(){
-		List<Personaje> personajes = new ArrayList<Personaje>();
-		Iterator<String> iter = integrantes.keySet().iterator();
-		while (iter.hasNext()){
-			personajes.add(integrantes.get(iter.next()));
+	public boolean existePersonaje(String unPersonaje){
+		return integrantes.containsKey(unPersonaje);
+	}
+	
+	public void aumentarKiAIntegrantes(int aumento){
+		for (Personaje unPersonaje : integrantes.values()){
+			unPersonaje.aumentarKi(aumento);
 		}
-		return personajes;
 	}
 	
 }

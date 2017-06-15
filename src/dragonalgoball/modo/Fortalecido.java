@@ -9,6 +9,8 @@ public class Fortalecido extends Modo{
 		 super.poderDePelea = 40;
 		 super.distanciaDeAtaque = 4;
 		 super.velocidad = 3;
+		 super.costo = 20;
+		 super.nombre = "Fortalecido";
 	}
 	
 	 

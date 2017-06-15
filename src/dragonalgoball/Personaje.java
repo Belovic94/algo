@@ -1,6 +1,7 @@
 package dragonalgoball;
 
 import java.util.HashMap;
+import java.util.Set;
 import dragonalgoball.modo.KaioKen;
 import dragonalgoball.modo.SuperSayajin;
 import dragonalgoball.modo.SuperSayajinFase1;
@@ -15,9 +16,8 @@ import dragonalgoball.modo.BooMalo;
 import dragonalgoball.modo.BooOriginal;
 import dragonalgoball.tablero.Celda;
 import dragonalgoball.tablero.Tablero;
-import dragonalgoball.excepciones.ExcepcionCeldaOcupada;
 import dragonalgoball.excepciones.ExcepcionMovimientoInvalido;
-import dragonalgoball.excepciones.ExcepcionCeldaVacia;
+import dragonalgoball.excepciones.ExcepcionKiInsuficiente;
 
 
 public abstract class Personaje {
@@ -25,68 +25,82 @@ public abstract class Personaje {
 	protected Celda posicion;
 	protected String nombre;
 	protected double puntosDeVida;
+	protected double puntosDeVidaInicial;
 	protected int ki;
 	protected Modo modoActual;
 	protected HashMap<String,Modo> listaModos;
+	protected AtaqueEspecial ataqueEspecial;
+	protected String estado;
 	
 	public Personaje(){
-		listaModos = new HashMap<String, Modo>();
-		this.CargarModos(); 
-	} 
-	 
-	 public void CargarModos(){
-		 listaModos.put("KaioKen", new KaioKen());
-		 listaModos.put("SuperSayajin", new SuperSayajin());
-		 listaModos.put("SuperSayajinFase1", new SuperSayajinFase1());
-		 listaModos.put("SuperSayajinFase2", new SuperSayajinFase2());
-		 listaModos.put("Fortalecido", new Fortalecido());
-		 listaModos.put("Protector", new Protector());
 		
-		 listaModos.put("SemiPerfecto", new SemiPerfecto());
-		 listaModos.put("Perfecto", new Perfecto());
-		 listaModos.put("SegundForma", new SegundaForma());
-		 listaModos.put("Definitivo", new Definitivo());
-		 listaModos.put("BooMalo", new BooMalo());
-		 listaModos.put("BooOriginal", new BooOriginal());
-	}
+		estado = "Vivo";
+		listaModos = new HashMap<String, Modo>();
+	} 
+	
 	 
 	public void moverA(Tablero tablero, Celda unaPosicion){
 		
-		if (!unaPosicion.esta_vacia()){
-    		throw new ExcepcionCeldaOcupada();
-    	}
-		
-		if (tablero.obtenerDistancia(posicion, unaPosicion) > this.obtenerVelocidad()){
+		if (!this.movimientoPosible(tablero.obtenerDistancia(this.obtenerPosicion(), unaPosicion), this.obtenerVelocidad())){
 			throw new ExcepcionMovimientoInvalido();
 		}
-		posicion.eliminarPersonaje();
 		unaPosicion.insertarPersonaje(this);
+		posicion.eliminarPersonaje();
 		this.establecerPosicion(unaPosicion);
 	}
 	
-	public void atacarA(Tablero tablero, Celda unaPosicion){
-		if (unaPosicion.esta_vacia()){
-			throw new ExcepcionCeldaVacia("La celda esta vacia");
-		}
-		if (tablero.obtenerDistancia(posicion, unaPosicion) > this.obtenerDistanciaDeAtaque()){
+	public void atacar(Tablero tablero, Personaje unEnemigo){
+		
+		if(!this.movimientoPosible(tablero.obtenerDistancia(posicion, unEnemigo.obtenerPosicion()), this.obtenerDistanciaDeAtaque())){
 			throw new ExcepcionMovimientoInvalido();
 		}
-		unaPosicion.obtener_personaje().disminuirVida(this.obtenerPoderdePelea());
-	}
-	  
-	public void disminuirVida(double dano){
-		if (dano < this.obtenerPoderdePelea()){
-			dano = dano * 0.2;
-		}
-		puntosDeVida -= dano;
+		this.atacarAPersonaje(unEnemigo);
 	}
 	
-	public  void cambiarModo(String modo){ 
+	private boolean movimientoPosible(int distancia, int movPersonaje){
+		return movPersonaje >= distancia;
+	}
+	
+	public void atacarConAtaqueEspecial(Tablero tablero, Personaje unEnemigo){
 		
-		this.modoActual = listaModos.get(modo);
+		if(!this.movimientoPosible(tablero.obtenerDistancia(posicion, unEnemigo.obtenerPosicion()), this.obtenerDistanciaDeAtaque())){
+			throw new ExcepcionMovimientoInvalido();
+		}
+		this.atacarAPersonajeConAtaqueEspecial(unEnemigo);
 	}
 	
-    public int obtenerPoderdePelea(){ 
+	protected void atacarAPersonajeConAtaqueEspecial(Personaje unEnemigo){
+		
+		int kiNecesario = this.ataqueEspecial.obtenerKiNecesario();
+		if (kiNecesario > this.ki){
+			throw new ExcepcionKiInsuficiente();
+		}
+		this.ki -= kiNecesario;
+		this.ataqueEspecial.impactarEn(this, unEnemigo, this.obtenerDanio(unEnemigo));
+	}
+	
+	private void atacarAPersonaje(Personaje unEnemigo){
+		unEnemigo.disminuirVida(this.obtenerDanio(unEnemigo));
+	}
+		
+	public double obtenerDanio(Personaje unEnemigo){
+		
+		double danio = this.obtenerPoderdePelea();
+		if (unEnemigo.obtenerPoderdePelea() > danio){
+			danio = danio * 0.8;
+		}
+		return danio;
+	}
+	
+	public void disminuirVida(double danio){
+		puntosDeVida -= danio;
+	}
+	
+	public void aumentarVida(double aumento){
+		puntosDeVida += aumento;
+	}
+
+	public int obtenerPoderdePelea(){ 
 		
 		return this.modoActual.obtenerPoderDePelea();
 	}
@@ -124,13 +138,38 @@ public abstract class Personaje {
     }
     
     public void disminuirKi(int descuento){
-    	ki += descuento;
+    	ki -= descuento;
     }
     
-    public Modo obtenerModoActual(){
-    	return modoActual;
+    public void cambiarEstado(String unEstado){
+    	this.estado = unEstado;
     }
     
-    public abstract void atacarAConAtaqueEspecial(Tablero tablero, Celda unaPosicion);
-    	
+    public String obtenerModoActual(){
+    	return modoActual.obtenerNombre();
+    	/*Set<String> claves = listaModos.keySet();
+    	for (String clave:claves){
+    		if (listaModos.get(clave) == modoActual)
+    			return clave;	
+    	}
+    	return null;*/
+    }
+    
+	/*public void agregar_modo(String nombre,Modo nuevomodo){
+		listaModos.put(nombre,nuevomodo);
+	}*/
+	private Modo obtenerModo(String modo){
+		return listaModos.get(modo);
+	}
+	
+    public  void cambiarModo(String modo){ 
+		
+		Modo nuevomodo = this.obtenerModo(modo);
+		if (nuevomodo.obtenerCosto() > this.ki){
+			throw new ExcepcionKiInsuficiente();
+		}	
+		this.ki -= nuevomodo.obtenerCosto();
+		this.modoActual = nuevomodo;
+	}
+    
 }

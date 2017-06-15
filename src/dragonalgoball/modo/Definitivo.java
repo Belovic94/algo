@@ -9,5 +9,7 @@ public class Definitivo extends Modo{
 		super.poderDePelea =50;
 		super.distanciaDeAtaque = 3;
 		super.velocidad = 6;
+		super.costo = 50;
+		super.nombre = "Definitivo";
 	}
 }

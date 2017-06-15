@@ -8,5 +8,8 @@ public class BooMalo extends Modo {
 		super.poderDePelea = 50;
 		super.distanciaDeAtaque = 2;
 		super.velocidad = 3;
+		super.costo = 20;
+		super.nombre = "BooMalo";
 	}
+	
 }

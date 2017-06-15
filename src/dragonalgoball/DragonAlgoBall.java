@@ -1,7 +1,5 @@
 package dragonalgoball;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.HashMap;
 import dragonalgoball.tablero.Tablero;
 import dragonalgoball.tablero.Celda;
@@ -19,25 +17,28 @@ public class DragonAlgoBall {
 		turno = new Turno(jugadores.values().iterator());
 	}
 	
-	private List<Personaje> crearListaPersonajes(Personaje personaje1, Personaje personaje2, Personaje personaje3){
-		List<Personaje> personajes = new ArrayList<Personaje>();
-		personajes.add(personaje1);
-		personajes.add(personaje2);
-		personajes.add(personaje3);
-		return personajes;
-	}
-	
-	
 	public void crearTablero(int filas, int columnas){
 		tablero = new Tablero(filas, columnas);
 	}
 	
-	public Equipo crearEquipo(Personaje personaje1, Personaje personaje2, Personaje personaje3){
-		return new Equipo(this.crearListaPersonajes(personaje1, personaje2, personaje3));
+	public Equipo crearEquipo(){
+		return new Equipo();
 	}
 	
 	public void asignarEquipoAJugadorActual(Equipo unEquipo){
 		turno.obtenerJugadorActual().asignarEquipo(unEquipo);
+	}
+	
+	public void asignarEquipoAJugadorEnEspera(Equipo unEquipo){
+		turno.obtenerJugadorEnEspera().asignarEquipo(unEquipo);
+	}
+	
+	public double obtenerVidaDePersonaje(String unPersonaje){
+		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPuntosDeVida();
+	}
+	
+	public void cambiarTurno(){
+		turno.cambiarJugador();
 	}
 	
 	public void colocarPersonaje(String unPersonaje, int fila, int columna){
@@ -70,6 +71,10 @@ public class DragonAlgoBall {
 	
 	public int obtenerPoderDePeleaPersonaje(String unPersonaje){
 		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPoderdePelea();
+	}
+	
+	public void atacarConAtaqueEspecial(String unPersonaje, int fila, int columna){
+		turno.obtenerJugadorActual().atacarAConAtaqueEspecial(tablero, tablero.obtenerCelda(fila, columna), unPersonaje);
 	}
 		
 }

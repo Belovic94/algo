@@ -16,9 +16,18 @@ public class Turno {
 		return jugadorActual;
 	}
 	
+	public Jugador obtenerJugadorEnEspera(){
+		return jugadorEnEspera;
+	}
+	
+	public void aumentarKi(){
+		jugadorActual.obtenerEquipo().aumentarKiAIntegrantes(5);
+	}
+	
 	public void cambiarJugador(){
 		Jugador auxiliar = this.jugadorActual;
 		this.jugadorActual = this.jugadorEnEspera;
 		this.jugadorEnEspera = auxiliar;
+		this.aumentarKi();
 	}
 }

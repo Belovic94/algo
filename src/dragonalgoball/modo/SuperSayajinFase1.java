@@ -7,6 +7,8 @@ public class SuperSayajinFase1 extends Modo{
 		super.poderDePelea = 30;
 		super.distanciaDeAtaque = 2;
 		super.velocidad = 2;
+		super.costo = 10;
+		super.nombre = "SuperSayajinFase1"; 
 	}
 
 }
