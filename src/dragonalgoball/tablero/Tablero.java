@@ -2,7 +2,8 @@ package dragonalgoball.tablero;
 
 import java.util.ArrayList;
 import java.util.List;
-import dragonalgoball.Personaje;
+
+import modelo.personajes.Personaje;
 
 public class Tablero {
 	private List<Fila> tabla;
@@ -29,6 +30,10 @@ public class Tablero {
 		return tabla.get(indice);
 	}
 	
+	public int cantidadFilas(){
+		return tabla.size();
+	}
+	
 	public int obtenerDistancia(Celda posInicial, Celda posFinal){
 		Bfs busqueda = new Bfs();
 		return busqueda.obtenerDistancia(posInicial, posFinal);
@@ -37,12 +42,13 @@ public class Tablero {
 	public void colocarPersonaje(Personaje unPersonaje, int fila, int columna){
 		Celda celda = this.obtenerCelda(fila, columna);
 		celda.insertarPersonaje(unPersonaje);
-		unPersonaje.establecerPosicion(celda);
+		unPersonaje.establecerCeldaActual(celda);
 	}
 	
 	public Celda obtenerCelda(int fila, int columna){
 		return this.obtenerFila(fila).obtenerCelda(columna);
 	}
+	
 }
 
 

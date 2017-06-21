@@ -3,18 +3,22 @@ package dragonalgoball;
 
 import dragonalgoball.tablero.Celda;
 import dragonalgoball.tablero.Tablero;
-import dragonalgoball.excepciones.ExcepcionAtacarPersonajeAliado;
+import excepciones.ExcepcionAtacarPersonajeAliado;
+import modelo.personajes.Personaje;
 
 public class Jugador {
 	
 	private String nombre;
-	private Equipo equipo;    
+	private Equipo equipo;
+	private boolean ataqueRealizado;
+	private boolean movimientoRealizado;
     		
     public Jugador(String unNombre){
-    	nombre = unNombre;		
+    	nombre = unNombre;
+    	ataqueRealizado = false;
+    	movimientoRealizado = false;
     }
-    		
-    		
+    
     public Personaje elegirPersonaje(String unPersonaje){
     	return  equipo.obtenerPersonaje(unPersonaje);
     }
@@ -26,26 +30,34 @@ public class Jugador {
     public boolean personajePerteneceAlEquipo(String unPersonaje){
     	return equipo.existePersonaje(unPersonaje);
     }
-    		
-    		
+		
     public void evolucionarPersonaje(String nombreDeLaEvolucion, String unPersonaje){
     	this.elegirPersonaje(unPersonaje).cambiarModo(nombreDeLaEvolucion);
     }
     
     public void moverA(Tablero tablero, Celda unaPosicion, String unPersonaje){
-    	this.elegirPersonaje(unPersonaje).moverA(tablero, unaPosicion);    	
+    	if(!movimientoRealizado){
+    		this.elegirPersonaje(unPersonaje).moverACelda(unaPosicion, tablero); 
+    		movimientoRealizado = true;
+    	}
     }
     
     public void atacarA(Tablero tablero, Celda unaPosicion, String unPersonaje){
-    	this.elegirPersonaje(unPersonaje).atacar(tablero, this.obtenerPersonajeEnemigo(unaPosicion));
+    	if (!ataqueRealizado){
+    		this.elegirPersonaje(unPersonaje).atacarA(this.obtenerPersonajeEnemigo(unaPosicion), tablero);
+    		ataqueRealizado = true;
+    	}
     }
     
     public void atacarAConAtaqueEspecial(Tablero tablero, Celda unaPosicion, String unPersonaje){
-    	this.elegirPersonaje(unPersonaje).atacarConAtaqueEspecial(tablero, this.obtenerPersonajeEnemigo(unaPosicion));
+    	if (!ataqueRealizado){
+    		this.elegirPersonaje(unPersonaje).atacarConAtaqueEspecialA(this.obtenerPersonajeEnemigo(unaPosicion), tablero);
+    		ataqueRealizado = true;
+    	}
     }
     
     private Personaje obtenerPersonajeEnemigo(Celda unaPosicion){
-     	Personaje personaje = unaPosicion.obtener_personaje();
+     	Personaje personaje = unaPosicion.obtenerPersonaje();
     	if (this.personajePerteneceAlEquipo(personaje.obtenerNombre())){
     		throw new ExcepcionAtacarPersonajeAliado();
     	}
@@ -60,4 +72,9 @@ public class Jugador {
     	return nombre;
     }
     
+    public void resetearJugador(){
+    	ataqueRealizado = false;
+    	movimientoRealizado = false;
+    	equipo.cambiarTurno();
+    }
 }

@@ -2,20 +2,16 @@ package pruebas;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import dragonalgoball.DragonAlgoBall;
-import dragonalgoball.guerrerosz.Goku;
-import dragonalgoball.guerrerosz.Gohan;
-import dragonalgoball.guerrerosz.Piccolo;
-import dragonalgoball.enemigos.Cell;
-import dragonalgoball.enemigos.Freezer;
-import dragonalgoball.enemigos.MajinBoo;
 import dragonalgoball.Equipo;
-import dragonalgoball.excepciones.ExcepcionMovimientoInvalido;
-import dragonalgoball.excepciones.ExcepcionCeldaOcupada;
-import dragonalgoball.excepciones.ExcepcionAtacarPersonajeAliado;
-import java.lang.Double.*;
+import excepciones.ExcepcionAtacarPersonajeAliado;
+import excepciones.ExcepcionCeldaOcupada;
+import excepciones.ExcepcionMovimientoInvalido;
+import modelo.personajes.enemigos.Cell;
+import modelo.personajes.guerrerosZ.Gohan;
+import modelo.personajes.guerrerosZ.Goku;
+import modelo.personajes.guerrerosZ.Piccolo;
+
 
 
 public class TestDragonAlgoBall {
@@ -26,9 +22,8 @@ public class TestDragonAlgoBall {
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo = dragonAlgoBall.crearEquipo();
 		equipo.agregarPersonaje(new Goku());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 4);
-		
 		assertEquals("Goku", dragonAlgoBall.obtenerPersonajeEnCelda(0, 4));
 		dragonAlgoBall.moverPersonajeA("Goku", 1, 5);
 		assertEquals("Goku", dragonAlgoBall.obtenerPersonajeEnCelda(1, 5));
@@ -40,8 +35,8 @@ public class TestDragonAlgoBall {
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo = dragonAlgoBall.crearEquipo();
 		equipo.agregarPersonaje(new Goku());
-		equipo.agregarPersonaje(new Gohan());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo);
+		equipo.agregarPersonaje(new Gohan(equipo));
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 4);
 		dragonAlgoBall.colocarPersonaje("Gohan", 0, 4);
 	}
@@ -52,7 +47,7 @@ public class TestDragonAlgoBall {
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo = dragonAlgoBall.crearEquipo();
 		equipo.agregarPersonaje(new Goku());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 0);
 		dragonAlgoBall.moverPersonajeA("Goku", 0, 3);
 	}
@@ -63,9 +58,9 @@ public class TestDragonAlgoBall {
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo = dragonAlgoBall.crearEquipo();
 		equipo.agregarPersonaje(new Goku());
-		equipo.agregarPersonaje(new Gohan());
-		equipo.agregarPersonaje(new Piccolo());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo);
+		equipo.agregarPersonaje(new Gohan(equipo));
+		equipo.agregarPersonaje(new Piccolo(equipo));
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo);
 		dragonAlgoBall.colocarPersonaje("Piccolo", 0, 0);
 		dragonAlgoBall.colocarPersonaje("Goku", 1, 0);
 		dragonAlgoBall.colocarPersonaje("Gohan", 1, 1);
@@ -73,28 +68,28 @@ public class TestDragonAlgoBall {
 	}
 	
 	@Test(expected = ExcepcionAtacarPersonajeAliado.class)
-	public void test06AtacarAUnAliado(){
+	public void test05AtacarAUnAliado(){
 		DragonAlgoBall dragonAlgoBall = new DragonAlgoBall("Jugador1", "Jugador2");
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo = dragonAlgoBall.crearEquipo();
 		equipo.agregarPersonaje(new Goku());
-		equipo.agregarPersonaje(new Gohan());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo);
+		equipo.agregarPersonaje(new Gohan(equipo));
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 2);
 		dragonAlgoBall.colocarPersonaje("Gohan", 0, 0);
 		dragonAlgoBall.atacarCon("Goku", 0, 0);
 	}
 	
 	@Test
-	public void test07AtacarAUnEnemigo(){
+	public void test06AtacarAUnEnemigo(){
 		DragonAlgoBall dragonAlgoBall = new DragonAlgoBall("Jugador1", "Jugador2");
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo1 = dragonAlgoBall.crearEquipo();
 		equipo1.agregarPersonaje(new Goku());
 		Equipo equipo2 = dragonAlgoBall.crearEquipo();
 		equipo2.agregarPersonaje(new Cell());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo1);
-		dragonAlgoBall.asignarEquipoAJugadorEnEspera(equipo2);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo1);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador2", equipo2);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 2);
 		dragonAlgoBall.cambiarTurno();
 		dragonAlgoBall.colocarPersonaje("Cell", 2, 3);
@@ -105,15 +100,15 @@ public class TestDragonAlgoBall {
 	}
 	
 	@Test
-	public void test08AtacarAUnEnemigoConAtaqueEspecialGoku(){
+	public void test07AtacarAUnEnemigoConAtaqueEspecialGoku(){
 		DragonAlgoBall dragonAlgoBall = new DragonAlgoBall("Jugador1", "Jugador2");
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo1 = dragonAlgoBall.crearEquipo();
 		equipo1.agregarPersonaje(new Goku());
 		Equipo equipo2 = dragonAlgoBall.crearEquipo();
 		equipo2.agregarPersonaje(new Cell());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo1);
-		dragonAlgoBall.asignarEquipoAJugadorEnEspera(equipo2);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo1);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador2", equipo2);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 2);
 		dragonAlgoBall.cambiarTurno();
 		dragonAlgoBall.colocarPersonaje("Cell", 2, 3);
@@ -131,15 +126,15 @@ public class TestDragonAlgoBall {
 	}
 	
 	@Test
-	public void test09AtacarAUnEnemigoConAtaqueEspecialCell(){
+	public void test08AtacarAUnEnemigoConAtaqueEspecialCell(){
 		DragonAlgoBall dragonAlgoBall = new DragonAlgoBall("Jugador1", "Jugador2");
 		dragonAlgoBall.crearTablero(8, 8);
 		Equipo equipo1 = dragonAlgoBall.crearEquipo();
 		equipo1.agregarPersonaje(new Goku());
 		Equipo equipo2 = dragonAlgoBall.crearEquipo();
 		equipo2.agregarPersonaje(new Cell());
-		dragonAlgoBall.asignarEquipoAJugadorActual(equipo1);
-		dragonAlgoBall.asignarEquipoAJugadorEnEspera(equipo2);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador1", equipo1);
+		dragonAlgoBall.asignarEquipoAJugador("Jugador2", equipo2);
 		dragonAlgoBall.colocarPersonaje("Goku", 0, 2);
 		dragonAlgoBall.cambiarTurno();
 		dragonAlgoBall.colocarPersonaje("Cell", 2, 3);

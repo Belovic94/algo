@@ -24,10 +24,20 @@ public class Turno {
 		jugadorActual.obtenerEquipo().aumentarKiAIntegrantes(5);
 	}
 	
-	public void cambiarJugador(){
+	public void cambiarJugadores(){
 		Jugador auxiliar = this.jugadorActual;
 		this.jugadorActual = this.jugadorEnEspera;
 		this.jugadorEnEspera = auxiliar;
 		this.aumentarKi();
 	}
+	public boolean hayGanador(){
+		return jugadorEnEspera.obtenerEquipo().estaDerrotado() || jugadorActual.obtenerEquipo().cantidadEsferas() == 7;
+	}
+	
+	public void terminarTurno(){
+		jugadorActual.resetearJugador();
+		this.cambiarJugadores();
+	}
+	
+
 }

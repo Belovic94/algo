@@ -4,12 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import dragonalgoball.enemigos.Cell;
-import dragonalgoball.enemigos.Freezer;
-import dragonalgoball.enemigos.MajinBoo;
-import dragonalgoball.excepciones.ExcepcionAbsorcionesInsuficientes;
-import dragonalgoball.excepciones.ExcepcionKiInsuficiente;
-import dragonalgoball.guerrerosz.Goku;
+import excepciones.ExcepcionAbsorcionesInsuficientes;
+import excepciones.ExcepcionKiInsuficiente;
+import modelo.personajes.enemigos.Cell;
+import modelo.personajes.enemigos.Freezer;
+import modelo.personajes.enemigos.MajinBoo;
+import modelo.personajes.guerrerosZ.Goku;
+
+
 
 public class TestCambiarModo {
 	
@@ -18,10 +20,10 @@ public class TestCambiarModo {
 		Goku personaje = new Goku();
 		personaje.aumentarKi(100);
 		personaje.cambiarModo("KaioKen");
-		assertEquals("KaioKen", personaje.obtenerModoActual());
+		assertEquals("KaioKen", personaje.obtenerModoActual().obtenerNombre());
 		personaje.aumentarKi(50);
 		personaje.cambiarModo("SuperSayajin");
-		assertEquals("SuperSayajin", personaje.obtenerModoActual());
+		assertEquals("SuperSayajin", personaje.obtenerModoActual().obtenerNombre());
 	}
 
 	@Test (expected = ExcepcionKiInsuficiente.class)
@@ -36,9 +38,9 @@ public class TestCambiarModo {
 		MajinBoo personaje = new MajinBoo();
 		personaje.aumentarKi(70);
 		personaje.cambiarModo("BooMalo");
-		assertEquals("BooMalo", personaje.obtenerModoActual());
+		assertEquals("BooMalo", personaje.obtenerModoActual().obtenerNombre());
 		personaje.cambiarModo("BooOriginal");
-		assertEquals("BooOriginal", personaje.obtenerModoActual());
+		assertEquals("BooOriginal", personaje.obtenerModoActual().obtenerNombre());
 	}
 	
 	@Test (expected = ExcepcionKiInsuficiente.class)
@@ -60,9 +62,9 @@ public class TestCambiarModo {
 		Freezer personaje=new Freezer();
 		personaje.aumentarKi(200);
 		personaje.cambiarModo("SegundaForma");
-		assertEquals("SegundaForma", personaje.obtenerModoActual());
+		assertEquals("SegundaForma", personaje.obtenerModoActual().obtenerNombre());
 		personaje.cambiarModo("Definitivo");
-		assertEquals("Definitivo", personaje.obtenerModoActual());
+		assertEquals("Definitivo", personaje.obtenerModoActual().obtenerNombre());
 	}
 	
 	@Test (expected = ExcepcionKiInsuficiente.class)
@@ -89,13 +91,13 @@ public class TestCambiarModo {
 		personaje.atacarAPersonajeConAtaqueEspecial(enemigo);
 		personaje.atacarAPersonajeConAtaqueEspecial(enemigo);
 		personaje.cambiarModo("SemiPerfecto");
-		assertEquals("SemiPerfecto", personaje.obtenerModoActual());
+		assertEquals("SemiPerfecto", personaje.obtenerModoActual().obtenerNombre());
 		personaje.atacarAPersonajeConAtaqueEspecial(enemigo);
 		personaje.atacarAPersonajeConAtaqueEspecial(enemigo);
 		personaje.atacarAPersonajeConAtaqueEspecial(enemigo);
 		personaje.atacarAPersonajeConAtaqueEspecial(enemigo);
 		personaje.cambiarModo("Perfecto");
-		assertEquals("Perfecto", personaje.obtenerModoActual());
+		assertEquals("Perfecto", personaje.obtenerModoActual().obtenerNombre());
 	}
 	
 	@Test(expected = ExcepcionAbsorcionesInsuficientes.class)
