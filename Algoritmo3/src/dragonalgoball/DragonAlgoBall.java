@@ -1,9 +1,14 @@
 package dragonalgoball;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 import dragonalgoball.tablero.Tablero;
+import modelo.consumibles.Consumible;
+import modelo.consumibles.Esfera;
+import modelo.consumibles.NubeVoladora;
+import modelo.consumibles.Semilla;
 import dragonalgoball.tablero.Celda;
 
 public class DragonAlgoBall {
@@ -19,25 +24,25 @@ public class DragonAlgoBall {
 		turno = new Turno(jugadores.values().iterator());
 	}
 	
-	private List<Personaje> crearListaPersonajes(Personaje personaje1, Personaje personaje2, Personaje personaje3){
-		List<Personaje> personajes = new ArrayList<Personaje>();
-		personajes.add(personaje1);
-		personajes.add(personaje2);
-		personajes.add(personaje3);
-		return personajes;
-	}
-	
 	
 	public void crearTablero(int filas, int columnas){
 		tablero = new Tablero(filas, columnas);
 	}
 	
-	public Equipo crearEquipo(Personaje personaje1, Personaje personaje2, Personaje personaje3){
-		return new Equipo(this.crearListaPersonajes(personaje1, personaje2, personaje3));
+	public Equipo crearEquipo(){
+		return new Equipo();
 	}
 	
-	public void asignarEquipoAJugadorActual(Equipo unEquipo){
-		turno.obtenerJugadorActual().asignarEquipo(unEquipo);
+	public void asignarEquipoAJugador(String jugador, Equipo unEquipo){
+		jugadores.get(jugador).asignarEquipo(unEquipo);
+	}
+	
+	public double obtenerVidaDePersonaje(String unPersonaje){
+		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPuntosDeVida();
+	}
+	
+	public void cambiarTurno(){
+		turno.cambiarJugadores();
 	}
 	
 	public void colocarPersonaje(String unPersonaje, int fila, int columna){
@@ -46,10 +51,11 @@ public class DragonAlgoBall {
 	
 	public String obtenerPersonajeEnCelda(int fila, int columna){
 		Celda celda = tablero.obtenerCelda(fila, columna);
-		return celda.obtener_personaje().obtenerNombre();
+		return celda.obtenerPersonaje().obtenerNombre();
 	}
+	
 	public Celda obtenerPosicion(String unPersonaje){
-		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPosicion();
+		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerCeldaActual();
 	}
 	
 	public Celda obtenerCelda(int fila, int columna){
@@ -71,5 +77,39 @@ public class DragonAlgoBall {
 	public int obtenerPoderDePeleaPersonaje(String unPersonaje){
 		return turno.obtenerJugadorActual().elegirPersonaje(unPersonaje).obtenerPoderdePelea();
 	}
-		
+	
+	public void atacarConAtaqueEspecial(String unPersonaje, int fila, int columna){
+		turno.obtenerJugadorActual().atacarAConAtaqueEspecial(tablero, tablero.obtenerCelda(fila, columna), unPersonaje);
+	}
+
+	public boolean celdaSeleccionadaVacia(int fila, int columna){
+		return tablero.obtenerCelda(fila, columna).esta_vacia(); 
+	}
+	
+	public Consumible generarConsumible(){
+		List<Consumible> consumibles = new ArrayList<Consumible>();
+		consumibles.add(new Semilla());
+		consumibles.add(new NubeVoladora());
+		consumibles.add(new Esfera());
+		consumibles.add(null);
+		Random rnd = new Random();
+		rnd.setSeed(System.currentTimeMillis()); //Cambia la semilla del random.
+		int indice = (int) (rnd.nextDouble() * (consumibles.size() - 1));
+		return consumibles.get(indice);
+	}
+	
+	public void colocarConsumibleEnTablero(Consumible consumible){
+		Random rnd = new Random();
+		while (true){
+			rnd.setSeed(System.currentTimeMillis()); //Cambia la semilla del random.
+			int fila = (int) (rnd.nextDouble() * (tablero.cantidadFilas() - 1));
+			int columna = (int) (rnd.nextDouble() * (tablero.obtenerFila(fila).cantidadCeldas() - 1));
+			Celda celda = tablero.obtenerCelda(fila, columna);
+			if (celda.esta_vacia()){
+				celda.insertarConsumible(consumible);
+				break;
+			}
+		}
+	}
+	
 }

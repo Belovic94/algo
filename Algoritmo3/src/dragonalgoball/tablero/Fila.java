@@ -2,6 +2,7 @@ package dragonalgoball.tablero;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Fila{
 	private List<Celda> fila;
 	

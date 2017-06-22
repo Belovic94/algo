@@ -16,9 +16,28 @@ public class Turno {
 		return jugadorActual;
 	}
 	
-	public void cambiarJugador(){
+	public Jugador obtenerJugadorEnEspera(){
+		return jugadorEnEspera;
+	}
+	
+	public void aumentarKi(){
+		jugadorActual.obtenerEquipo().aumentarKiAIntegrantes(5);
+	}
+	
+	public void cambiarJugadores(){
 		Jugador auxiliar = this.jugadorActual;
 		this.jugadorActual = this.jugadorEnEspera;
 		this.jugadorEnEspera = auxiliar;
+		this.aumentarKi();
 	}
+	public boolean hayGanador(){
+		return jugadorEnEspera.obtenerEquipo().estaDerrotado() || jugadorActual.obtenerEquipo().cantidadEsferas() == 7;
+	}
+	
+	public void terminarTurno(){
+		jugadorActual.resetearJugador();
+		this.cambiarJugadores();
+	}
+	
+
 }
